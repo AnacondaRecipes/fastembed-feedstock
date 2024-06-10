@@ -1,0 +1,50 @@
+{% set name = "fastembed" %}
+{% set version = "0.2.7" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: file:///home/ubuntu/fastembed-0.2.7.tar.gz
+  sha256: 26e540bd8b25496ec2c6ccadb71551c4049c1a4fc6809959853c594bef69849b
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python
+    - poetry-core
+    - pip
+  run:
+    - python >=3.8.0,<3.13
+    - onnx >=1.15.0,<2.0.0
+    - onnxruntime >=1.17.0,<2.0.0
+    - tqdm >=4.66.0,<5.0.0
+    - requests >=2.31.0,<3.0.0
+    - tokenizers >=0.15.0,<0.16.0
+    - huggingface_hub >=0.20.0,<0.21.0
+    - loguru >=0.7.2,<0.8.0
+
+test:
+  imports:
+    - fastembed
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  summary: Fast, light, accurate library built for retrieval embedding generation
+  license: Apache-2.0
+  license_file: LICENSE
+
+extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/49522
+    reason: Dependency for pyautogen
+  recipe-maintainers:
+    - ianaobi
