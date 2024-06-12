@@ -21,10 +21,6 @@ requirements:
     - pip
   run:
     - python >=3.8.0,<3.13
-    - {{ python >=3.12 }}  # Define a condition for Python 3.12 or higher
-    - {{ python <3.12 }}   # Define a condition for Python versions less than 3.12
-    - numpy >=1.26         # This will be ignored for Python <3.12
-    - numpy >=1.21         # This will be ignored for Python >=3.12
     - onnx >=1.15.0,<2.0.0
     - onnxruntime >=1.17.0,<2.0.0
     - tqdm >=4.66.0,<5.0.0
@@ -32,6 +28,13 @@ requirements:
     - tokenizers >=0.15.0,<0.16.0
     - huggingface_hub >=0.20.0,<0.21.0
     - loguru >=0.7.2,<0.8.0
+    - numpy
+  zip_keys:
+    - - python
+      - numpy
+  run_constrained:
+    - python >=3.12  numpy >=1.26
+    - python <3.12  numpy >=1.21
 
 test:
   imports:
