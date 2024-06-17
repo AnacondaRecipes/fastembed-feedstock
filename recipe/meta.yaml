@@ -14,7 +14,7 @@ build:
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
   # Conditionally skip Python 3.12
-#  skip: true  # [py==3.12]
+  skip: true  # [py==3.12]
 
 requirements:
   host:
@@ -31,12 +31,12 @@ requirements:
     - huggingface_hub >=0.20.0,<0.21.0
     - loguru >=0.7.2,<0.8.0
     - numpy
-#  zip_keys:
-#    - - python
-#      - numpy
-#  run_constrained:
-#    - python >=3.12  numpy >=1.26
-#    - python <3.12  numpy >=1.21
+  zip_keys:
+    - - python
+      - numpy
+  run_constrained:
+    - python >=3.12  numpy >=1.26
+    - python <3.12  numpy >=1.21
 
 test:
   imports:
