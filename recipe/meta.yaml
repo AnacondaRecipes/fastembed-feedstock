@@ -6,8 +6,10 @@ package:
   version: {{ version }}
 
 source:
-  url: file:///home/ubuntu/fastembed-0.2.7.tar.gz
-  sha256: 26e540bd8b25496ec2c6ccadb71551c4049c1a4fc6809959853c594bef69849b
+#  url: file:///home/ubuntu/fastembed-0.2.7.tar.gz
+#  sha256: 26e540bd8b25496ec2c6ccadb71551c4049c1a4fc6809959853c594bef69849b
+  url: https://pypi.org/project/fastembed
+  sha256: d04d16515e21014b9a3c557bb692566cc569cecd0718666b88f57c75fa66eee5
 
 build:
   noarch: python
