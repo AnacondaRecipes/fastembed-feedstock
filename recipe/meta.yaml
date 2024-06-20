@@ -1,0 +1,72 @@
+{% set name = "fastembed" %}
+{% set version = "0.3.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/27/c2/74b42fc98ab7034f57292252f30eaa804ef620b248a628977234e608885f/fastembed-0.3.1.tar.gz
+  sha256: 01a52c5c9cdfe2504dfa56b3c1b032d1ad88d621de144fc9a571371a79df6457
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+   # Conditionally skip Python 3.12
+  skip: true  # [py==3.12]
+requirements:
+  host:
+    - python
+    - poetry-core
+    - pip
+    - pytest >=7.4.2
+    - ruff >=0.3.1,<1.0
+    - notebook >=7.0.2
+    - pre-commit    # [py>=39]
+    - pre-commit    # [py<312]
+    - notebook >=7.0.2
+    - numpy
+  run:
+    - python >=3.8.0,<3.13
+    - onnx >=1.15.0,<2.0.0
+    - onnxruntime >=1.17.0,<2.0.0 
+    - tqdm >=4.66.0,<5.0.0
+    - requests >=2.31.0,<3.0.0
+    - tokenizers >=0.15,<1.0
+    - huggingface_hub >=0.20,<1.0
+    - loguru >=0.7.2,<0.8.0
+    - pillow >=10.3.0,<11.0.0
+    - snowballstemmer >=2.2.0,<3.0.0
+    - pystemmer >=2.2.0,<3.0.0
+    - mmh3 >=4.0.0,<5.0.0
+    - numpy
+    
+  # zip_keys to handle the conditional dependency
+  zip_keys:
+    - - python
+      - numpy
+  # Add run constraints based on Python versions
+  run_constrained:
+    - numpy >=1.21,<2  # [python ==3.11]
+    - numpy >=1.26,<2  # [python ==3.11]
+
+test:
+  imports:
+    - fastembed
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  summary: Fast, light, accurate library built for retrieval embedding generation
+  license: Apache-2.0
+  license_file: LICENSE
+
+extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/49522
+    reason: Client request
+  recipe-maintainers:
+    - ianaobi
