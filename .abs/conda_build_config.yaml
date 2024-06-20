@@ -7,3 +7,5 @@ python:
 numpy:
   - 1.21   # for python < 3.12
   - 1.26   # for python >= 3.12  
+onnxruntime:
+  - 1.17.1

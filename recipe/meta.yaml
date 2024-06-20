@@ -1,22 +1,18 @@
 {% set name = "fastembed" %}
-{% set version = "0.2.7" %}
+{% set version = "0.3.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-#  url: file:///home/ubuntu/fastembed-0.2.7.tar.gz
-#  sha256: 26e540bd8b25496ec2c6ccadb71551c4049c1a4fc6809959853c594bef69849b
-  url: https://pypi.org/project/fastembed
-  sha256: d04d16515e21014b9a3c557bb692566cc569cecd0718666b88f57c75fa66eee5
+  url: https://files.pythonhosted.org/packages/27/c2/74b42fc98ab7034f57292252f30eaa804ef620b248a628977234e608885f/fastembed-0.3.1.tar.gz
+  sha256: 01a52c5c9cdfe2504dfa56b3c1b032d1ad88d621de144fc9a571371a79df6457
 
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
-  # Conditionally skip Python 3.12
-  skip: true  # [py==3.12]
 
 requirements:
   host:
@@ -26,11 +22,11 @@ requirements:
   run:
     - python >=3.8.0,<3.13
     - onnx >=1.15.0,<2.0.0
-    - onnxruntime >=1.17.0,<2.0.0
+    - onnxruntime >=1.17.0,<2.0.0 
     - tqdm >=4.66.0,<5.0.0
     - requests >=2.31.0,<3.0.0
-    - tokenizers >=0.15.0,<0.16.0
-    - huggingface_hub >=0.20.0,<0.21.0
+    - tokenizers >=0.15,<1.0
+    - huggingface_hub >=0.20,<1.0
     - loguru >=0.7.2,<0.8.0
     - pillow >=10.3.0,<11.0.0
     - snowballstemmer >=2.2.0,<3.0.0
@@ -39,17 +35,27 @@ requirements:
     - pytest >=7.4.2
     - ruff >=0.3.1,<1.0
     - notebook >=7.0.2
-    - pre-commit
     - numpy
-
+    - pre-commit
+    
+  # zip_keys to handle the conditional dependency
   zip_keys:
     - - python
       - numpy
       - pre-commit
+  # Add run constraints based on Python versions
   run_constrained:
-    - python >=3.12  numpy >=1.26
-    - python <3.12  numpy >=1.21
-    - python >=3.9,=<3.12 pre-commit >=3.6.2
+    - numpy >=1.21,<2  # [python ==3.11]
+    - numpy >=1.26,<2  # [python ==3.11]
+    - pre-commit =3.6.2  # [python ==3.9]
+#    - onnxruntime  # [!= gpu_cuda*]
+    #    - python >=3.12 numpy >=1.26
+    #    - python =<3.11 numpy >=1.21
+  #run_constrained:
+  #  - {{ pin_subpackage('numpy >=1.26') }}  # For Python 3.12
+  #    - {{ python == 3.12 }}
+  #  - {{ pin_subpackage('numpy >=1.21') }}  # For Python < 3.12
+  #    - {{ python < 3.12 }}
 
 test:
   imports:
