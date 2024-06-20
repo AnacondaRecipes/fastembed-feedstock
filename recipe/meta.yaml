@@ -19,6 +19,13 @@ requirements:
     - python
     - poetry-core
     - pip
+    - pytest >=7.4.2
+    - ruff >=0.3.1,<1.0
+    - notebook >=7.0.2
+    - pre-commit    # [py>=39]
+    - pre-commit    # [py<312]
+    - notebook >=7.0.2
+    - numpy
   run:
     - python >=3.8.0,<3.13
     - onnx >=1.15.0,<2.0.0
@@ -32,11 +39,7 @@ requirements:
     - snowballstemmer >=2.2.0,<3.0.0
     - pystemmer >=2.2.0,<3.0.0
     - mmh3 >=4.0.0,<5.0.0
-    - pytest >=7.4.2
-    - ruff >=0.3.1,<1.0
-    - notebook >=7.0.2
     - numpy
-    - pre-commit
     
   # zip_keys to handle the conditional dependency
   zip_keys:
