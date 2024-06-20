@@ -45,12 +45,10 @@ requirements:
   zip_keys:
     - - python
       - numpy
-      - pre-commit
   # Add run constraints based on Python versions
   run_constrained:
     - numpy >=1.21,<2  # [python ==3.11]
     - numpy >=1.26,<2  # [python ==3.11]
-    - pre-commit =3.6.2  # [python ==3.9]
 
 test:
   imports:
