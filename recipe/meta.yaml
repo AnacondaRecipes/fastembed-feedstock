@@ -32,13 +32,24 @@ requirements:
     - tokenizers >=0.15.0,<0.16.0
     - huggingface_hub >=0.20.0,<0.21.0
     - loguru >=0.7.2,<0.8.0
+    - pillow >=10.3.0,<11.0.0
+    - snowballstemmer >=2.2.0,<3.0.0
+    - pystemmer >=2.2.0,<3.0.0
+    - mmh3 >=4.0.0,<5.0.0
+    - pytest >=7.4.2
+    - ruff >=0.3.1,<1.0
+    - notebook >=7.0.2
+    - pre-commit
     - numpy
+
   zip_keys:
     - - python
       - numpy
+      - pre-commit
   run_constrained:
     - python >=3.12  numpy >=1.26
     - python <3.12  numpy >=1.21
+    - python >=3.9,=<3.12 pre-commit >=3.6.2
 
 test:
   imports:
