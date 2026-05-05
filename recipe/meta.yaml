@@ -16,11 +16,11 @@ build:
 
 requirements:
   host:
-    - python >=3.10
+    - python
     - poetry-core
     - pip
   run:
-    - python >=3.10
+    - python
     - huggingface_hub >=0.20,<2.0
     - loguru >=0.7.2,<0.8.0
     - mmh3 >=4.1.0,<6.0.0
