@@ -1,0 +1,71 @@
+{% set name = "fastembed" %}
+{% set version = "0.8.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/f/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 75966edfa8b006ee78514c726bd7f6a50721dadc89305279052be9db72fd53e8
+
+build:
+  number: 0
+  skip: true  # [py<310 or py>313]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+
+requirements:
+  host:
+    - python
+    - poetry-core
+    - pip
+  run:
+    - python
+    - huggingface_hub >=0.20,<2.0
+    - loguru >=0.7.2,<0.8.0
+    - mmh3 >=4.1.0,<6.0.0
+    - numpy >=1.21,<2.3.0  # [py==310]
+    - numpy >=1.21         # [py==311]
+    - numpy >=1.26         # [py==312]
+    - numpy >=2.1.0        # [py==313]
+    # *cpu* build string forces the CPU variant. CUDA build of onnxruntime
+    # registers its PyPI metadata as 'onnxruntime-gpu', so 'pip check' misses
+    # fastembed's 'onnxruntime' requirement. Users wanting GPU should install
+    # onnxruntime-gpu separately.
+    - onnxruntime >=1.17.0,!=1.20.0,<1.24             *cpu*  # [py==310]
+    - onnxruntime >=1.17.0,!=1.20.0,!=1.24.0,!=1.24.1 *cpu*  # [py==311 or py==312]
+    - onnxruntime >1.21.0,!=1.24.0,!=1.24.1           *cpu*  # [py==313]
+    - pillow >=10.3.0,<13.0  # [py<313]
+    - pillow >=11.0.0,<13.0  # [py==313]
+    - py-rust-stemmers >=0.1.0,<0.2.0
+    - requests >=2.31,<3.0
+    - tokenizers >=0.15,<1.0
+    - tqdm >=4.66,<5.0
+
+test:
+  imports:
+    - fastembed
+  requires:
+    - pip
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert version('{{ name }}') == '{{ version }}'"
+
+about:
+  home: https://github.com/qdrant/fastembed
+  dev_url: https://github.com/qdrant/fastembed
+  doc_url: https://qdrant.github.io/fastembed/
+  summary: Fast, light, accurate library built for retrieval embedding generation
+  description: |
+    fastembed is a lightweight, fast, Python library built for embedding
+    generation. It supports popular text models and is designed for ease of
+    use with minimal dependencies. The library uses ONNX Runtime for
+    inference, providing efficient performance on CPU without GPU
+    requirements.
+  license: Apache-2.0
+  license_family: Apache
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - moritzwilksch
